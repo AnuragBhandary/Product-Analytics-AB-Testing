@@ -1,0 +1,61 @@
+version: 2
+
+models:
+  - name: fct_sessions
+    description: One row per GA4 session with funnel flags, channel and deduplicated revenue.
+    columns:
+      - name: session_key
+        tests: [unique, not_null]
+      - name: user_pseudo_id
+        tests:
+          - not_null
+          - relationships:
+              arguments: {to: ref('dim_users'), field: user_pseudo_id}
+      - name: device_category
+        tests:
+          - accepted_values:
+              arguments: {values: ['desktop', 'mobile', 'tablet']}
+      - name: channel
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Organic Search', 'Paid Search', 'Direct', 'Referral', 'Data deleted',
+                         'Other (obfuscated)', 'Other', 'Unknown']
+      - name: acquisition_channel
+        tests: [not_null]
+      - name: revenue_usd
+        tests:
+          - dbt_utils_free_non_negative
+
+  - name: fct_purchases
+    description: One row per real purchase after deduplication (see int_purchases).
+    columns:
+      - name: purchase_key
+        tests: [unique, not_null]
+      - name: revenue_usd
+        tests: [not_null, dbt_utils_free_non_negative]
+
+  - name: dim_users
+    columns:
+      - name: user_pseudo_id
+        tests: [unique, not_null]
+      - name: acquisition_channel
+        tests: [not_null]
+
+  - name: mart_cohort_retention
+    columns:
+      - name: retention
+        tests: [not_null]
+
+  - name: mart_product_performance
+    columns:
+      - name: item_name
+        tests: [unique]
+
+  - name: exp_users
+    columns:
+      - name: user_pseudo_id
+        tests: [unique, not_null]
+      - name: arrival_day
+        tests: [not_null]
