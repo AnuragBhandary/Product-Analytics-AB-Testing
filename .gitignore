@@ -11,8 +11,6 @@ dist/
 *.egg-info/
 .DS_Store
 data/
-runs/
-models/
 dbt/target/
 dbt/logs/
 dbt/dbt_packages/
