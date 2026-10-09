@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen --extra bigquery
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+      - name: SQL style (sqlfluff, BigQuery dialect)
+        run: uv run sqlfluff lint dbt/models dbt/tests
+      # Parsing compiles every model, test, macro and ref without touching BigQuery; the real
+      # build + 40 data tests run against BigQuery locally (make dbt), see docs/RESULTS.md.
+      - name: dbt parse
+        run: uv run dbt parse --project-dir dbt --profiles-dir dbt
+        env:
+          GCP_PROJECT: ci-placeholder
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen --extra bigquery
+      - name: Statistics, Criteo readout, simulations, dashboard data
+        run: uv run pytest --cov --cov-report=term --cov-fail-under=85
+        env:
+          OMP_NUM_THREADS: 2
+
+  dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: dashboard/package-lock.json
+      - run: npm ci
+        working-directory: dashboard
+      # The DuckDB file is committed (aggregates only), so no BigQuery credentials are needed.
+      - run: npm run sources -- --strict
+        working-directory: dashboard
+      - run: npm run build:strict
+        working-directory: dashboard
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          path: dashboard/build
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: [dashboard]
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

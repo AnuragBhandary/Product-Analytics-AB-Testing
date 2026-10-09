@@ -1,0 +1,4 @@
+name: ga4
+type: duckdb
+options:
+  filename: ga4.duckdb

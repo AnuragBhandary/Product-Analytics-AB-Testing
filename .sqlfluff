@@ -1,0 +1,24 @@
+[sqlfluff]
+dialect = bigquery
+templater = jinja
+max_line_length = 100
+# Layout and style rules this project follows; capitalisation is lower-case keywords.
+exclude_rules = ST06, ST07, AM04, RF04
+large_file_skip_byte_limit = 50000
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = True
+load_macros_from_path = dbt/macros
+
+[sqlfluff:templater:jinja:context]
+start_date = 20201101
+end_date = 20210131
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = lower
+
+[sqlfluff:rules:capitalisation.functions]
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:references.special_chars]
+allow_space_in_identifier = False
