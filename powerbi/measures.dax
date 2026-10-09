@@ -1,0 +1,199 @@
+// Product Analytics & A/B Testing: Power BI measures.
+// Create a blank table named _Measures (Home > Enter data > OK) and add each measure to it
+// (Modeling > New measure). Table and column names match the BigQuery marts and the CSVs in
+// powerbi/data. Format strings are in the comment above each measure.
+
+// ======================================================================================
+// Overview (table: mart_daily_kpis)
+// ======================================================================================
+
+// Whole number, thousands separator
+Sessions = SUM ( mart_daily_kpis[sessions] )
+
+// Whole number
+Purchases = SUM ( mart_daily_kpis[purchases] )
+
+// Currency $, 0 decimals
+Revenue = SUM ( mart_daily_kpis[revenue_usd] )
+
+// Percentage, 2 decimals
+Session Conversion Rate =
+DIVIDE ( SUM ( mart_daily_kpis[converting_sessions] ), [Sessions] )
+
+// Currency $, 2 decimals
+Average Order Value = DIVIDE ( [Revenue], [Purchases] )
+
+// Currency $, 2 decimals
+Revenue per Session = DIVIDE ( [Revenue], [Sessions] )
+
+// Percentage, 1 decimal. Engagement rate weighted by sessions (not an average of daily rates).
+Engagement Rate =
+DIVIDE (
+    SUMX ( mart_daily_kpis, mart_daily_kpis[engagement_rate] * mart_daily_kpis[sessions] ),
+    [Sessions]
+)
+
+// Currency $, 0 decimals. Same period one week earlier (needs the Date table, see README).
+Revenue Previous Week =
+CALCULATE ( [Revenue], DATEADD ( 'Date'[Date], -7, DAY ) )
+
+// Percentage, 1 decimal
+Revenue WoW % = DIVIDE ( [Revenue] - [Revenue Previous Week], [Revenue Previous Week] )
+
+// Currency $, 0 decimals. 7-day rolling revenue for the trend line.
+Revenue 7d Rolling =
+CALCULATE (
+    [Revenue],
+    DATESINPERIOD ( 'Date'[Date], MAX ( 'Date'[Date] ), -7, DAY )
+)
+
+// ======================================================================================
+// Funnel (table: mart_funnel_weekly)
+// ======================================================================================
+
+// Whole number
+Funnel Sessions = SUM ( mart_funnel_weekly[sessions] )
+
+// Percentage, 1 decimal: open-funnel step rates
+View to Cart % =
+DIVIDE ( SUM ( mart_funnel_weekly[open_add_to_cart] ), SUM ( mart_funnel_weekly[open_view_item] ) )
+
+Cart to Checkout % =
+DIVIDE (
+    SUM ( mart_funnel_weekly[open_begin_checkout] ),
+    SUM ( mart_funnel_weekly[open_add_to_cart] )
+)
+
+Checkout to Purchase % =
+DIVIDE ( SUM ( mart_funnel_weekly[open_purchase] ), SUM ( mart_funnel_weekly[open_begin_checkout] ) )
+
+// Percentage, 2 decimals: share of all sessions that complete every closed-funnel step
+Closed Funnel Completion % =
+DIVIDE ( SUM ( mart_funnel_weekly[closed_purchase] ), [Funnel Sessions] )
+
+// Whole number. Value for the funnel visual: one measure, switched by the FunnelStep table
+// (see README step 4).
+Funnel Step Sessions =
+SWITCH (
+    SELECTEDVALUE ( FunnelStep[Order] ),
+    1, SUM ( mart_funnel_weekly[closed_view_item] ),
+    2, SUM ( mart_funnel_weekly[closed_add_to_cart] ),
+    3, SUM ( mart_funnel_weekly[closed_begin_checkout] ),
+    4, SUM ( mart_funnel_weekly[closed_add_shipping_info] ),
+    5, SUM ( mart_funnel_weekly[closed_add_payment_info] ),
+    6, SUM ( mart_funnel_weekly[closed_purchase] )
+)
+
+// Percentage, 1 decimal: share lost at this step vs the previous one
+Funnel Step Drop-off % =
+VAR curr = [Funnel Step Sessions]
+VAR prevOrder = SELECTEDVALUE ( FunnelStep[Order] ) - 1
+VAR prev =
+    CALCULATE ( [Funnel Step Sessions], FunnelStep[Order] = prevOrder )
+RETURN
+    IF ( prevOrder >= 1, 1 - DIVIDE ( curr, prev ) )
+
+// ======================================================================================
+// Channels (table: mart_channel_performance)
+// ======================================================================================
+
+// Percentage, 2 decimals
+Channel Conversion Rate =
+DIVIDE (
+    SUM ( mart_channel_performance[converting_sessions] ),
+    SUM ( mart_channel_performance[sessions] )
+)
+
+// Currency $, 2 decimals
+Channel Revenue per Session =
+DIVIDE ( SUM ( mart_channel_performance[revenue_usd] ), SUM ( mart_channel_performance[sessions] ) )
+
+// Percentage, 1 decimal. How much of the channel's traffic has no session-level source.
+Sessions Without Session Source % =
+DIVIDE (
+    SUMX (
+        mart_channel_performance,
+        mart_channel_performance[share_sessions_without_session_source]
+            * mart_channel_performance[sessions]
+    ),
+    SUM ( mart_channel_performance[sessions] )
+)
+
+// ======================================================================================
+// Retention (table: mart_cohort_retention)
+// ======================================================================================
+
+// Percentage, 1 decimal. Pooled across cohorts: sum of actives over sum of cohort sizes, so
+// big cohorts weigh more (never average the per-cohort percentages).
+Retention % =
+DIVIDE (
+    SUM ( mart_cohort_retention[active_users] ),
+    SUM ( mart_cohort_retention[cohort_users] )
+)
+
+// ======================================================================================
+// Products (table: mart_product_performance)
+// ======================================================================================
+
+// Currency $, 0 decimals
+Item Revenue = SUM ( mart_product_performance[item_revenue_usd] )
+
+// Percentage, 1 decimal
+Units per Viewing Session =
+DIVIDE (
+    SUM ( mart_product_performance[units_purchased] ),
+    SUM ( mart_product_performance[sessions_viewed] )
+)
+
+// Whole number. Rank for "Top N" filtering on the products page.
+Item Revenue Rank =
+RANKX ( ALL ( mart_product_performance[item_name] ), [Item Revenue], , DESC, DENSE )
+
+// ======================================================================================
+// Experiment readout (CSV tables: criteo_estimates, criteo_segments, sim_*)
+// ======================================================================================
+
+// Percentage, 1 decimal. Use with a slicer on criteo_estimates[outcome].
+Naive Lift % =
+CALCULATE (
+    MAX ( criteo_estimates[rel_lift] ),
+    criteo_estimates[estimator_order] = 0
+)
+
+AIPW Lift % =
+CALCULATE (
+    MAX ( criteo_estimates[rel_lift] ),
+    criteo_estimates[estimator] = "AIPW (doubly robust)"
+)
+
+// Percentage, 0 decimals: how much of the naive effect survives adjustment
+AIPW Share of Naive % = DIVIDE ( [AIPW Lift %], [Naive Lift %] )
+
+// Decimal, 5 places: error-bar bounds for the estimates chart
+Effect = SUM ( criteo_estimates[diff] )
+Effect CI Low = SUM ( criteo_estimates[ci_low] )
+Effect CI High = SUM ( criteo_estimates[ci_high] )
+
+// Percentage, 0 decimals
+Share of Incremental = SUM ( criteo_segments[share_of_incremental] )
+
+// Percentage, 1 decimal. A/A false-positive rate (lift = 0) of the selected analysis.
+False Positive Rate =
+CALCULATE ( AVERAGE ( sim_calibration[rejection_rate] ), sim_calibration[lift] = 0 )
+
+// ======================================================================================
+// Sample-size calculator (what-if parameters, see README step 7)
+// ======================================================================================
+
+// Whole number. Users per arm for a two-sided z-test on a conversion rate.
+// Inputs: Baseline Rate, Relative MDE, Power (what-if parameters); alpha fixed at 5%.
+Users per Arm =
+VAR p1 = [Baseline Rate Value]
+VAR p2 = p1 * ( 1 + [Relative MDE Value] )
+VAR zA = NORM.S.INV ( 1 - 0.05 / 2 )
+VAR zB = NORM.S.INV ( [Power Value] )
+RETURN
+    ROUNDUP ( ( zA + zB ) ^ 2 * ( p1 * ( 1 - p1 ) + p2 * ( 1 - p2 ) ) / ( p2 - p1 ) ^ 2, 0 )
+
+// Decimal, 1 place. Days at the store's traffic (3,159 new experiment users a day in Dec-Jan).
+Days Needed = DIVIDE ( 2 * [Users per Arm], [Daily Users Value] )

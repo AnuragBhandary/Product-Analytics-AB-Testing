@@ -1,0 +1,159 @@
+{
+  "users": 195884,
+  "days": 62,
+  "purchaser_rate": 0.01370709195237998,
+  "revenue_per_user": 1.1018562006085235,
+  "returning_share": 0.026296175287415,
+  "metric_sensitivity": [
+    {
+      "users_per_day": 3159.4193548387098,
+      "rel_mde": 0.05,
+      "days_revenue_per_user": 759.0261787588572,
+      "cv_revenue_per_user": 13.818726643934633,
+      "days_revenue_per_user_cuped": 757.1872332605011,
+      "cv_revenue_per_user_cuped": 13.818726643934633,
+      "days_revenue_per_user_cupac": 754.4569847460742,
+      "cv_revenue_per_user_cupac": 13.818726643934633,
+      "days_revenue_per_user_capped_p99": 589.6836699270997,
+      "cv_revenue_per_user_capped_p99": 12.180052401806437,
+      "days_purchaser_rate": 286.0114149190337,
+      "cv_purchaser_rate": 8.482647119819552,
+      "days_add_to_cart_rate": 68.92215801188458,
+      "cv_add_to_cart_rate": 4.164080911984757
+    },
+    {
+      "users_per_day": 3159.4193548387098,
+      "rel_mde": 0.1,
+      "days_revenue_per_user": 189.75701946049702,
+      "cv_revenue_per_user": 13.818726643934633,
+      "days_revenue_per_user_cuped": 189.29680831512528,
+      "cv_revenue_per_user_cuped": 13.818726643934633,
+      "days_revenue_per_user_cupac": 188.61440444344612,
+      "cv_revenue_per_user_cupac": 13.818726643934633,
+      "days_revenue_per_user_capped_p99": 147.42139225255764,
+      "cv_revenue_per_user_capped_p99": 12.180052401806437,
+      "days_purchaser_rate": 71.50301198668599,
+      "cv_purchaser_rate": 8.482647119819552,
+      "days_add_to_cart_rate": 17.231014273753853,
+      "cv_add_to_cart_rate": 4.164080911984757
+    }
+  ],
+  "calibration": {
+    "lift_0": {
+      "conversion": 0.041,
+      "revenue": 0.049,
+      "revenue_capped": 0.0505,
+      "revenue_cuped": 0.0525,
+      "revenue_cupac": 0.05,
+      "session_rate_delta": 0.046,
+      "session_rate_naive": 0.0565,
+      "revenue_ci_coverage": 0.9495,
+      "mean_rel_revenue": 0.0035227945092375134,
+      "variance_reduction_cuped": 0.0024225752041444615,
+      "variance_reduction_cupac": 0.006019255127391876
+    },
+    "lift_0.1": {
+      "conversion": 0.725,
+      "revenue": 0.341,
+      "revenue_capped": 0.415,
+      "revenue_cuped": 0.343,
+      "revenue_cupac": 0.336,
+      "session_rate_delta": 0.649,
+      "session_rate_naive": 0.685,
+      "revenue_ci_coverage": 0.951,
+      "mean_rel_revenue": 0.10234583914127963,
+      "variance_reduction_cuped": 0.0023030737256436048,
+      "variance_reduction_cupac": 0.005726170178409551
+    },
+    "lift_0.25": {
+      "conversion": 1.0,
+      "revenue": 0.966,
+      "revenue_capped": 0.996,
+      "revenue_cuped": 0.966,
+      "revenue_cupac": 0.968,
+      "session_rate_delta": 1.0,
+      "session_rate_naive": 1.0,
+      "revenue_ci_coverage": 0.946,
+      "mean_rel_revenue": 0.2527156622300776,
+      "variance_reduction_cuped": 0.002161356509712526,
+      "variance_reduction_cupac": 0.005363580586584291
+    }
+  },
+  "peeking": [
+    {
+      "lift": 0.0,
+      "tau_rel": 0.05,
+      "looks": 62.0,
+      "reps": 1000.0,
+      "reject_single_final_look": 0.053,
+      "reject_naive_daily_peeking": 0.297,
+      "reject_msprt_daily_peeking": 0.0,
+      "msprt_median_stop_day": NaN
+    },
+    {
+      "lift": 0.0,
+      "tau_rel": 0.25,
+      "looks": 62.0,
+      "reps": 1000.0,
+      "reject_single_final_look": 0.053,
+      "reject_naive_daily_peeking": 0.297,
+      "reject_msprt_daily_peeking": 0.015,
+      "msprt_median_stop_day": 32.0
+    },
+    {
+      "lift": 0.25,
+      "tau_rel": 0.05,
+      "looks": 62.0,
+      "reps": 1000.0,
+      "reject_single_final_look": 0.934,
+      "reject_naive_daily_peeking": 0.967,
+      "reject_msprt_daily_peeking": 0.175,
+      "msprt_median_stop_day": 55.0
+    },
+    {
+      "lift": 0.25,
+      "tau_rel": 0.25,
+      "looks": 62.0,
+      "reps": 1000.0,
+      "reject_single_final_look": 0.934,
+      "reject_naive_daily_peeking": 0.967,
+      "reject_msprt_daily_peeking": 0.734,
+      "msprt_median_stop_day": 18.0
+    }
+  ],
+  "srm": [
+    {
+      "drop_share_of_treatment_bouncers": 0.01,
+      "users_lost_share": 0.004081931142921321,
+      "srm_alarm_rate": 0.076,
+      "false_revenue_win_rate": 0.032,
+      "false_conversion_win_rate": 0.056,
+      "mean_false_rel_lift_conversion": 0.009106570492286893
+    },
+    {
+      "drop_share_of_treatment_bouncers": 0.02,
+      "users_lost_share": 0.008163862285842642,
+      "srm_alarm_rate": 0.616,
+      "false_revenue_win_rate": 0.038,
+      "false_conversion_win_rate": 0.068,
+      "mean_false_rel_lift_conversion": 0.017485092366142808
+    },
+    {
+      "drop_share_of_treatment_bouncers": 0.05,
+      "users_lost_share": 0.020409655714606605,
+      "srm_alarm_rate": 1.0,
+      "false_revenue_win_rate": 0.088,
+      "false_conversion_win_rate": 0.2,
+      "mean_false_rel_lift_conversion": 0.04348906813797955
+    },
+    {
+      "drop_share_of_treatment_bouncers": 0.1,
+      "users_lost_share": 0.04081931142921321,
+      "srm_alarm_rate": 1.0,
+      "false_revenue_win_rate": 0.26,
+      "false_conversion_win_rate": 0.58,
+      "mean_false_rel_lift_conversion": 0.08986073334683013
+    }
+  ],
+  "seconds": 89.8
+}
