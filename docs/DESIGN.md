@@ -142,8 +142,9 @@ Real users and outcomes, simulated assignment. Units are users with a session in
   Pages by CI. It reads a committed DuckDB file of aggregates only (3.6 MB), so CI needs no
   BigQuery credentials. The current Evidence template moved to a hosted CLI; this uses the
   open-source `@evidence-dev/evidence` 40.x build, with TypeScript pinned to 5 for its peers.
-- **Power BI** (by hand, Windows): the same marts through the BigQuery connector, measures in
-  `powerbi/measures.dax`. Rates are always ratios of sums, never averages of rates.
+- **Power BI** (Windows; generated as a `.pbip` project by `tools/powerbi`, finished in Desktop):
+  the same marts as CSV extracts in `powerbi/data`, read from GitHub so the report refreshes
+  anywhere (the BigQuery sandbox tables expire); measures in `powerbi/measures.dax`. Rates are always ratios of sums, never averages of rates.
 
 ## Keeping the laptop usable
 

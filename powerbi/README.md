@@ -1,7 +1,8 @@
 # Power BI report: build guide
 
 The dashboard in `dashboard/` (Evidence) is built from code. This report is the same analysis
-built by hand in Power BI Desktop (Windows only), reading the same dbt marts from BigQuery.
+in Power BI Desktop (Windows only), reading the same dbt marts. The steps below are the manual
+build; the committed report was generated from them as code (see "The built report").
 Time: about 1.5 to 2 hours. Save the result as `powerbi/ga4-ab-testing.pbix` and export a PDF
 (File > Export > PDF) to `powerbi/ga4-ab-testing.pdf`, plus one PNG screenshot per page in
 `powerbi/screenshots/`.
@@ -11,8 +12,11 @@ Five pages: Overview, Funnel, Retention, Products, Experiment.
 **The built report:** [`ga4-ab-testing/`](ga4-ab-testing) (Power BI project: open
 `ga4-ab-testing.pbip`; saved as `.pbip` rather than `.pbix` so the model and measures diff as
 text), [`ga4-ab-testing.pdf`](ga4-ab-testing.pdf), and one PNG per page in
-[`screenshots/`](screenshots). It reads the CSVs in `powerbi/data/` (option B); on another machine
-set Transform data > Edit parameters > `DataFolder` to that folder and Refresh.
+[`screenshots/`](screenshots). It reads the CSVs in `powerbi/data/` (option B) straight from
+GitHub, so a fresh clone refreshes with nothing to configure (choose **Anonymous** the first time
+Power BI asks how to access the web content). To read local copies instead, edit `DataFolder` and
+the `Source` steps in Transform data. The project was first generated from code by
+[`tools/powerbi`](../tools/powerbi), then refreshed, tested and saved in Power BI Desktop.
 
 | Overview | Funnel |
 |---|---|
