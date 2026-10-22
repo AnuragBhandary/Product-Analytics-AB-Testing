@@ -1,0 +1,44 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "idCard2",
+  "position": {
+    "x": 640,
+    "y": 100,
+    "z": 4000,
+    "width": 300,
+    "height": 120,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "mart_product_performance"
+                        }
+                      },
+                      "Property": "units_purchased"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(mart_product_performance.units_purchased)",
+              "nativeQueryRef": "Sum_of_units_purchased",
+              "displayName": "Units purchased"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "ovNote",
+  "position": {
+    "x": 20,
+    "y": 560,
+    "z": 8000,
+    "width": 1240,
+    "height": 60,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "26% of sessions have no session-level source (mostly one-page bounces); channels use the user's acquisition channel.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "fontStyle": "italic"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

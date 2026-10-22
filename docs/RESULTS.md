@@ -176,4 +176,4 @@ November (pre-period) activity.
 | Python tests | 33, 93% line + branch coverage (stats against scipy and hand-computed values; simulations; estimators on synthetic confounded data) |
 | CI | ruff, mypy --strict, sqlfluff (BigQuery dialect), dbt parse, pytest, Evidence strict build, GitHub Pages deploy |
 | Dashboard | Evidence, 6 pages, built from a committed 3.6 MB DuckDB of aggregates |
-| Power BI | build guide + 34 DAX measures in `powerbi/`; the .pbix is built by hand on Windows |
+| Power BI | 5-page report + hidden drill-through, 35 DAX measures, what-if sample-size calculator: `powerbi/ga4-ab-testing` (.pbip), [PDF](../powerbi/ga4-ab-testing.pdf) |

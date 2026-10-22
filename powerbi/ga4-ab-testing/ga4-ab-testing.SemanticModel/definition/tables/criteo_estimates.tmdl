@@ -1,0 +1,71 @@
+/// Criteo uplift: naive vs adjusted treatment-effect estimators (analysis output).
+table criteo_estimates
+	lineageTag: 89f702fa-b6d1-432b-b546-f67e15d88037
+
+	column outcome
+		dataType: string
+		lineageTag: 4689509e-5025-45e0-866e-ececfe3e5e2e
+		summarizeBy: none
+		sourceColumn: outcome
+
+	column estimator_order
+		dataType: int64
+		formatString: #,0
+		lineageTag: 390c1f3b-9cfc-47e8-aa8b-766cf5dcd379
+		summarizeBy: none
+		sourceColumn: estimator_order
+
+	column estimator
+		dataType: string
+		lineageTag: 6e1c3ed6-c1c9-4a14-9abf-82d812bbd0e6
+		summarizeBy: none
+		sourceColumn: estimator
+		sortByColumn: estimator_order
+
+	column diff
+		dataType: double
+		formatString: 0.00000
+		lineageTag: ac4deb23-d75d-4b2c-af1a-74bc9b8cb926
+		summarizeBy: sum
+		sourceColumn: diff
+
+	column ci_low
+		dataType: double
+		formatString: 0.00000
+		lineageTag: ad7cc8b7-e840-4ba8-ad83-c743d5202da7
+		summarizeBy: sum
+		sourceColumn: ci_low
+
+	column ci_high
+		dataType: double
+		formatString: 0.00000
+		lineageTag: 9197ce00-504b-4e0f-81a4-d1d7d2eb6ca0
+		summarizeBy: sum
+		sourceColumn: ci_high
+
+	column rel_lift
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 9e40dd81-f5d1-464f-93fe-56685e541fcd
+		summarizeBy: none
+		sourceColumn: rel_lift
+
+	column share_of_naive
+		dataType: double
+		formatString: 0%
+		lineageTag: 808ed4a1-cd10-4d13-9752-f56de556fc30
+		summarizeBy: none
+		sourceColumn: share_of_naive
+
+	partition criteo_estimates = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\criteo_estimates.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"outcome", "estimator_order", "estimator", "diff", "ci_low", "ci_high", "rel_lift", "share_of_naive"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"outcome", type text}, {"estimator_order", Int64.Type}, {"estimator", type text}, {"diff", type number}, {"ci_low", type number}, {"ci_high", type number}, {"rel_lift", type number}, {"share_of_naive", type number}}, "en-US")
+				in
+				    Typed
+

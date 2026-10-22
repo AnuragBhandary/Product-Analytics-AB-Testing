@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "idCard4",
+  "position": {
+    "x": 20,
+    "y": 230,
+    "z": 6000,
+    "width": 300,
+    "height": 120,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Units per Viewing Session"
+                }
+              },
+              "queryRef": "_Measures.Units per Viewing Session",
+              "nativeQueryRef": "Units_per_Viewing_Session"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

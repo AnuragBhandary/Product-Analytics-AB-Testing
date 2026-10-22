@@ -1,0 +1,24 @@
+/// What-if parameter for the sample-size calculator.
+table 'Relative MDE'
+	lineageTag: 56878ebf-0ee3-4585-ba1f-2fd792997070
+
+	measure 'Relative MDE Value' = SELECTEDVALUE ( 'Relative MDE'[Relative MDE], 0.1 )
+		formatString: 0%
+		lineageTag: 174b3053-9bf0-4794-b4eb-557373a79c7f
+
+	column 'Relative MDE'
+		dataType: double
+		formatString: 0%
+		lineageTag: 1c6fe737-1797-4fde-887f-929f5d702020
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+	partition 'Relative MDE' = calculated
+		mode: import
+		source = GENERATESERIES ( 0.01, 0.5, 0.01 )
+

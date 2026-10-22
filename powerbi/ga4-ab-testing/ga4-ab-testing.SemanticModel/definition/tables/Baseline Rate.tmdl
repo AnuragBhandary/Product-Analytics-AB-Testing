@@ -1,0 +1,24 @@
+/// What-if parameter for the sample-size calculator.
+table 'Baseline Rate'
+	lineageTag: 4158340c-0349-4c55-bfb1-0bc001662c02
+
+	measure 'Baseline Rate Value' = SELECTEDVALUE ( 'Baseline Rate'[Baseline Rate], 0.0137 )
+		formatString: 0.00%
+		lineageTag: 5617163e-85b7-453d-9b4e-cd62a48d373e
+
+	column 'Baseline Rate'
+		dataType: double
+		formatString: 0.00%
+		lineageTag: bbc32127-7f0c-411b-bd47-8a531e4ec8e0
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+	partition 'Baseline Rate' = calculated
+		mode: import
+		source = GENERATESERIES ( 0.001, 0.2, 0.001 )
+

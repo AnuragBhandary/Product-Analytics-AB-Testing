@@ -1,0 +1,26 @@
+/// Funnel steps in order; Funnel Step Sessions switches on [Order].
+table FunnelStep
+	lineageTag: aaa7770d-a8d4-4855-823c-5c7a7a4c4aca
+
+	column Order
+		dataType: int64
+		formatString: 0
+		lineageTag: df7a90cb-de4e-45c6-ad11-5ccbf8f62532
+		summarizeBy: none
+		sourceColumn: Order
+
+	column Step
+		dataType: string
+		lineageTag: 0098bdd7-9e8f-41fb-88a4-7ee40a51e5fa
+		summarizeBy: none
+		sourceColumn: Step
+		sortByColumn: Order
+
+	partition FunnelStep = m
+		mode: import
+		source =
+				#table(
+				    type table [Order = Int64.Type, Step = text],
+				    {{1, "View item"}, {2, "Add to cart"}, {3, "Begin checkout"}, {4, "Shipping info"}, {5, "Payment info"}, {6, "Purchase"}}
+				)
+

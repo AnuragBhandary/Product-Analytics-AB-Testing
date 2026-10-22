@@ -1,0 +1,107 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "fuDevice",
+  "position": {
+    "x": 20,
+    "y": 430,
+    "z": 2000,
+    "height": 270,
+    "width": 620,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_funnel_weekly"
+                    }
+                  },
+                  "Property": "device_category"
+                }
+              },
+              "queryRef": "mart_funnel_weekly.device_category",
+              "nativeQueryRef": "device_category",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "View to Cart %"
+                }
+              },
+              "queryRef": "_Measures.View to Cart %",
+              "nativeQueryRef": "View_to_Cart_%"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Cart to Checkout %"
+                }
+              },
+              "queryRef": "_Measures.Cart to Checkout %",
+              "nativeQueryRef": "Cart_to_Checkout_%"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Checkout to Purchase %"
+                }
+              },
+              "queryRef": "_Measures.Checkout to Purchase %",
+              "nativeQueryRef": "Checkout_to_Purchase_%"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Open-funnel step rates by device'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

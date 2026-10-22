@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "fuCompletion",
+  "position": {
+    "x": 650,
+    "y": 520,
+    "z": 5000,
+    "width": 610,
+    "height": 120,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Closed Funnel Completion %"
+                }
+              },
+              "queryRef": "_Measures.Closed Funnel Completion %",
+              "nativeQueryRef": "Closed_Funnel_Completion_%"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

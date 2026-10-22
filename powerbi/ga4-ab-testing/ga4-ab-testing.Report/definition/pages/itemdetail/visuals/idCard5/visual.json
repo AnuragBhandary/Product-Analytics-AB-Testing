@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "idCard5",
+  "position": {
+    "x": 330,
+    "y": 230,
+    "z": 7000,
+    "width": 300,
+    "height": 120,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Item Revenue Rank"
+                }
+              },
+              "queryRef": "_Measures.Item Revenue Rank",
+              "nativeQueryRef": "Item_Revenue_Rank"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

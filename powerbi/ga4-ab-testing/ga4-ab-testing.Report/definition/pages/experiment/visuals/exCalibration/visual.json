@@ -1,0 +1,177 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "exCalibration",
+  "position": {
+    "x": 590,
+    "y": 410,
+    "z": 8000,
+    "height": 300,
+    "width": 670,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_calibration"
+                    }
+                  },
+                  "Property": "lift"
+                }
+              },
+              "queryRef": "sim_calibration.lift",
+              "nativeQueryRef": "lift",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_calibration"
+                    }
+                  },
+                  "Property": "analysis"
+                }
+              },
+              "queryRef": "sim_calibration.analysis",
+              "nativeQueryRef": "analysis",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "sim_calibration"
+                        }
+                      },
+                      "Property": "rejection_rate"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Avg(sim_calibration.rejection_rate)",
+              "nativeQueryRef": "Avg_of_rejection_rate",
+              "displayName": "Rejection rate"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "subTotals": [
+        {
+          "properties": {
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Calibration: rejection rate by true lift (lift 0 = false positive rate, target 5%)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "62295eb1695e7a1a3f91",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "sim_calibration"
+              }
+            },
+            "Property": "analysis"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "fd3eb2830bc890b7a9e6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "sim_calibration"
+              }
+            },
+            "Property": "lift"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7e5ad151e351c06284b2",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "sim_calibration"
+                  }
+                },
+                "Property": "rejection_rate"
+              }
+            },
+            "Function": 1
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

@@ -1,0 +1,83 @@
+table mart_channel_performance
+	lineageTag: 1cd40601-f0df-44de-9963-4fc26c4ae07d
+
+	column acquisition_channel
+		dataType: string
+		lineageTag: 1e1fa975-d74a-4ddb-8349-c2147166c4fc
+		summarizeBy: none
+		sourceColumn: acquisition_channel
+
+	column device_category
+		dataType: string
+		lineageTag: e77c8f7f-d51c-4871-9796-2004856ad3a1
+		summarizeBy: none
+		sourceColumn: device_category
+
+	column users
+		dataType: int64
+		formatString: #,0
+		lineageTag: d62adc40-626d-4bad-ab36-d6cac848cabf
+		summarizeBy: sum
+		sourceColumn: users
+
+	column sessions
+		dataType: int64
+		formatString: #,0
+		lineageTag: d82b2f83-246a-4c83-98c0-88c04a0458dd
+		summarizeBy: sum
+		sourceColumn: sessions
+
+	column engagement_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 79da82f8-83bd-4326-8b21-13fb4ea09744
+		summarizeBy: none
+		sourceColumn: engagement_rate
+
+	column converting_sessions
+		dataType: int64
+		formatString: #,0
+		lineageTag: fd247ab6-9125-4c14-b67d-b2b303579c9b
+		summarizeBy: sum
+		sourceColumn: converting_sessions
+
+	column session_conversion_rate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: c2894690-83fa-4b66-a9af-ac2e7ce6f811
+		summarizeBy: none
+		sourceColumn: session_conversion_rate
+
+	column revenue_usd
+		dataType: decimal
+		formatString: #,0.00
+		lineageTag: d382e0a7-9538-418b-ae4d-f10afa0947f2
+		summarizeBy: sum
+		sourceColumn: revenue_usd
+
+	column revenue_per_session_usd
+		dataType: decimal
+		formatString: #,0.00
+		lineageTag: 3476bc02-ef42-4c90-a7f8-cea7172ea77a
+		summarizeBy: none
+		sourceColumn: revenue_per_session_usd
+
+	column share_sessions_without_session_source
+		dataType: double
+		formatString: 0.0%
+		lineageTag: dd9c8dbc-de2d-4972-8dd5-1e1c408dff26
+		summarizeBy: none
+		sourceColumn: share_sessions_without_session_source
+
+	partition mart_channel_performance = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\mart_channel_performance.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"acquisition_channel", "device_category", "users", "sessions", "engagement_rate", "converting_sessions", "session_conversion_rate", "revenue_usd", "revenue_per_session_usd", "share_sessions_without_session_source"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"acquisition_channel", type text}, {"device_category", type text}, {"users", Int64.Type}, {"sessions", Int64.Type}, {"engagement_rate", type number}, {"converting_sessions", Int64.Type}, {"session_conversion_rate", type number}, {"revenue_usd", Currency.Type}, {"revenue_per_session_usd", Currency.Type}, {"share_sessions_without_session_source", type number}}, "en-US")
+				in
+				    Typed
+

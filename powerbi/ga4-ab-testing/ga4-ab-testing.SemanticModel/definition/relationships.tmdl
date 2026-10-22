@@ -1,0 +1,16 @@
+relationship 5c50f634-478f-5c0a-8bdf-a397e2ee40ba
+	fromColumn: mart_daily_kpis.date
+	toColumn: Date.Date
+
+relationship c3941f30-6948-5d31-be9f-dde1fe313e78
+	fromColumn: mart_funnel_weekly.week
+	toColumn: Date.Date
+
+relationship 9ade631e-9ac5-58e5-8c37-6bfbb37ec69f
+	fromColumn: criteo_estimates.outcome
+	toColumn: Outcome.outcome
+
+relationship 5ff7faf7-f452-55e0-8e9c-54054e54f38e
+	fromColumn: criteo_segments.outcome
+	toColumn: Outcome.outcome
+

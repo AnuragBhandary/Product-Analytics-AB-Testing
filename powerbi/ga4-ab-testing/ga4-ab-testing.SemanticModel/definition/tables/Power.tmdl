@@ -1,0 +1,24 @@
+/// What-if parameter for the sample-size calculator.
+table Power
+	lineageTag: 70bc1609-b9bc-466d-9a47-eaacaf85e0d8
+
+	measure 'Power Value' = SELECTEDVALUE ( Power[Power], 0.8 )
+		formatString: 0%
+		lineageTag: f321d8fb-6e7a-4a2c-9cec-7c8b9a8dce18
+
+	column Power
+		dataType: double
+		formatString: 0%
+		lineageTag: f5e14286-aaae-4665-80ae-458b45e69a52
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+	partition Power = calculated
+		mode: import
+		source = GENERATESERIES ( 0.5, 0.95, 0.05 )
+

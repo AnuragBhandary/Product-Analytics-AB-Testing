@@ -1,0 +1,13 @@
+rel_mde,metric,days_needed
+0.05,revenue_per_user,759.0261787588572
+0.05,revenue_per_user_cuped,757.1872332605011
+0.05,revenue_per_user_cupac,754.4569847460742
+0.05,revenue_per_user_capped_p99,589.6836699270997
+0.05,purchaser_rate,286.0114149190337
+0.05,add_to_cart_rate,68.92215801188458
+0.1,revenue_per_user,189.75701946049702
+0.1,revenue_per_user_cuped,189.29680831512528
+0.1,revenue_per_user_cupac,188.61440444344612
+0.1,revenue_per_user_capped_p99,147.42139225255764
+0.1,purchaser_rate,71.50301198668599
+0.1,add_to_cart_rate,17.231014273753853

@@ -1,0 +1,24 @@
+/// What-if parameter for the sample-size calculator.
+table 'Daily Users'
+	lineageTag: 1c2b5b14-fe76-48dc-8501-a2da82b762ca
+
+	measure 'Daily Users Value' = SELECTEDVALUE ( 'Daily Users'[Daily Users], 3159 )
+		formatString: #,0
+		lineageTag: 4c436282-60db-4c1a-8437-e390cbae3aec
+
+	column 'Daily Users'
+		dataType: double
+		formatString: #,0
+		lineageTag: 846f37ba-aab4-410d-864d-cf5937c5a3b0
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+	partition 'Daily Users' = calculated
+		mode: import
+		source = GENERATESERIES ( 500, 20000, 100 )
+

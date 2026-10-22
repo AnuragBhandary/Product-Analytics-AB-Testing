@@ -84,12 +84,17 @@ SWITCH (
     6, SUM ( mart_funnel_weekly[closed_purchase] )
 )
 
-// Percentage, 1 decimal: share lost at this step vs the previous one
+// Percentage, 1 decimal: share lost at this step vs the previous one. ALL ( FunnelStep ) first:
+// the visual also filters FunnelStep[Step] (and Order, its sort column), so only replacing the
+// Order filter would leave Step = this step and find no previous row.
 Funnel Step Drop-off % =
 VAR curr = [Funnel Step Sessions]
 VAR prevOrder = SELECTEDVALUE ( FunnelStep[Order] ) - 1
 VAR prev =
-    CALCULATE ( [Funnel Step Sessions], FunnelStep[Order] = prevOrder )
+    CALCULATE (
+        [Funnel Step Sessions],
+        FILTER ( ALL ( FunnelStep ), FunnelStep[Order] = prevOrder )
+    )
 RETURN
     IF ( prevOrder >= 1, 1 - DIVIDE ( curr, prev ) )
 
@@ -148,6 +153,13 @@ DIVIDE (
 // Whole number. Rank for "Top N" filtering on the products page.
 Item Revenue Rank =
 RANKX ( ALL ( mart_product_performance[item_name] ), [Item Revenue], , DESC, DENSE )
+
+// Text. Header for the Item detail drill-through page.
+Selected Item =
+SELECTEDVALUE (
+    mart_product_performance[item_name],
+    "All items: right-click an item on Products > Drill through"
+)
 
 // ======================================================================================
 // Experiment readout (CSV tables: criteo_estimates, criteo_segments, sim_*)

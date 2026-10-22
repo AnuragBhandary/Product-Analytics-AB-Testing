@@ -1,0 +1,14 @@
+/// Outcome dimension (visit, conversion): one slicer filters both Criteo tables.
+table Outcome
+	lineageTag: ad4424fa-5ce0-4887-8266-0c7047af6851
+
+	column outcome
+		dataType: string
+		lineageTag: ee44479b-5f58-4f05-9b31-d28473582892
+		summarizeBy: none
+		sourceColumn: outcome
+
+	partition Outcome = m
+		mode: import
+		source = #table(type table [outcome = text], {{"visit"}, {"conversion"}})
+

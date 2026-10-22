@@ -84,7 +84,7 @@ GA4 SQL runs in BigQuery.
 | `src/ablab/criteo.py` | the real experiment readout |
 | `src/ablab/simulate.py` | testing the tests on GA4 users |
 | `dashboard/` | Evidence pages (SQL + Markdown) |
-| `powerbi/` | Power BI build guide, `measures.dax`, CSV extracts |
+| `powerbi/` | Power BI report ([PDF](powerbi/ga4-ab-testing.pdf), `.pbip` project), build guide, `measures.dax`, CSV extracts |
 | `docs/results/` | raw JSON results behind every number |
 
 ## Tests

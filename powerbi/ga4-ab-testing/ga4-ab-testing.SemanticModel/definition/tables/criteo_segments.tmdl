@@ -1,0 +1,91 @@
+table criteo_segments
+	lineageTag: 99457e71-f453-4435-ade1-e0ceb27f4af0
+
+	column outcome
+		dataType: string
+		lineageTag: a59f8a78-25b6-49d8-8ac2-eeba51d5a788
+		summarizeBy: none
+		sourceColumn: outcome
+
+	column segment
+		dataType: int64
+		formatString: #,0
+		lineageTag: ffca6443-e352-4243-b8c4-e276b26d72f5
+		summarizeBy: none
+		sourceColumn: segment
+
+	column users
+		dataType: int64
+		formatString: #,0
+		lineageTag: 25ff8710-a67d-40c9-a839-06cd983794cf
+		summarizeBy: sum
+		sourceColumn: users
+
+	column mean_score
+		dataType: double
+		formatString: 0.000
+		lineageTag: 12015ba1-1839-417b-999f-91cf69d7cc3c
+		summarizeBy: none
+		sourceColumn: mean_score
+
+	column diff
+		dataType: double
+		formatString: 0.000
+		lineageTag: d69d37ab-deb3-4cad-8a0b-b60a4b18a362
+		summarizeBy: none
+		sourceColumn: diff
+
+	column ci_low
+		dataType: double
+		formatString: 0.000
+		lineageTag: dd2261ee-616a-48cb-b3e3-52f32744af24
+		summarizeBy: none
+		sourceColumn: ci_low
+
+	column ci_high
+		dataType: double
+		formatString: 0.000
+		lineageTag: 7d2c6dc1-ca47-41f9-936f-fd1d384b3a63
+		summarizeBy: none
+		sourceColumn: ci_high
+
+	column p_value
+		dataType: double
+		formatString: 0.000
+		lineageTag: 2e2d7c70-a849-4372-a776-d62e534722fe
+		summarizeBy: none
+		sourceColumn: p_value
+
+	column incremental_outcomes
+		dataType: double
+		formatString: #,0
+		lineageTag: dc18680c-002b-49a3-930d-3e24dcd81cc9
+		summarizeBy: sum
+		sourceColumn: incremental_outcomes
+
+	column p_bh
+		dataType: double
+		formatString: 0.000
+		lineageTag: b21e9e51-2d5d-451e-b2f4-1e9d959210be
+		summarizeBy: none
+		sourceColumn: p_bh
+
+	column share_of_incremental
+		dataType: double
+		formatString: 0%
+		lineageTag: 256e4787-9695-48eb-b3e8-d03816be60a4
+		summarizeBy: sum
+		sourceColumn: share_of_incremental
+
+	partition criteo_segments = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\criteo_segments.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"outcome", "segment", "users", "mean_score", "diff", "ci_low", "ci_high", "p_value", "incremental_outcomes", "p_bh", "share_of_incremental"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"outcome", type text}, {"segment", Int64.Type}, {"users", Int64.Type}, {"mean_score", type number}, {"diff", type number}, {"ci_low", type number}, {"ci_high", type number}, {"p_value", type number}, {"incremental_outcomes", type number}, {"p_bh", type number}, {"share_of_incremental", type number}}, "en-US")
+				in
+				    Typed
+

@@ -1,0 +1,121 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "exSrm",
+  "position": {
+    "x": 20,
+    "y": 540,
+    "z": 7000,
+    "width": 560,
+    "height": 170,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_srm"
+                    }
+                  },
+                  "Property": "drop_share_of_treatment_bouncers"
+                }
+              },
+              "queryRef": "sim_srm.drop_share_of_treatment_bouncers",
+              "nativeQueryRef": "drop_share_of_treatment_bouncers",
+              "displayName": "Treatment bouncers lost"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_srm"
+                    }
+                  },
+                  "Property": "users_lost_share"
+                }
+              },
+              "queryRef": "sim_srm.users_lost_share",
+              "nativeQueryRef": "users_lost_share",
+              "displayName": "Users lost"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_srm"
+                    }
+                  },
+                  "Property": "srm_alarm_rate"
+                }
+              },
+              "queryRef": "sim_srm.srm_alarm_rate",
+              "nativeQueryRef": "srm_alarm_rate",
+              "displayName": "SRM alarm rate"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_srm"
+                    }
+                  },
+                  "Property": "false_revenue_win_rate"
+                }
+              },
+              "queryRef": "sim_srm.false_revenue_win_rate",
+              "nativeQueryRef": "false_revenue_win_rate",
+              "displayName": "False revenue win"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_srm"
+                    }
+                  },
+                  "Property": "false_conversion_win_rate"
+                }
+              },
+              "queryRef": "sim_srm.false_conversion_win_rate",
+              "nativeQueryRef": "false_conversion_win_rate",
+              "displayName": "False conversion win"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sample-ratio mismatch: losing treatment bouncers fakes a win'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

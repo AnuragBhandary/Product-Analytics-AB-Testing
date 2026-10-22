@@ -1,0 +1,57 @@
+table sim_srm
+	lineageTag: 5af19e65-5aad-4c37-8451-1cb5f97167f8
+
+	column drop_share_of_treatment_bouncers
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 3baf0c59-7ae2-498e-b9fb-2fd789ebe6f7
+		summarizeBy: none
+		sourceColumn: drop_share_of_treatment_bouncers
+
+	column users_lost_share
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 10391459-c455-43ff-b345-65528cb84be1
+		summarizeBy: none
+		sourceColumn: users_lost_share
+
+	column srm_alarm_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: ccdb33e3-0c4f-4d9e-bafb-8525622340b1
+		summarizeBy: none
+		sourceColumn: srm_alarm_rate
+
+	column false_revenue_win_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: add01e14-b9d1-4ccb-9965-88fb73f87937
+		summarizeBy: none
+		sourceColumn: false_revenue_win_rate
+
+	column false_conversion_win_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 33b92a4a-195c-4384-9eba-5e8cb6687ea5
+		summarizeBy: none
+		sourceColumn: false_conversion_win_rate
+
+	column mean_false_rel_lift_conversion
+		dataType: double
+		formatString: 0.0%
+		lineageTag: eb36b2c4-1c84-4dcf-8986-a85274a8c19c
+		summarizeBy: none
+		sourceColumn: mean_false_rel_lift_conversion
+
+	partition sim_srm = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\sim_srm.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"drop_share_of_treatment_bouncers", "users_lost_share", "srm_alarm_rate", "false_revenue_win_rate", "false_conversion_win_rate", "mean_false_rel_lift_conversion"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"drop_share_of_treatment_bouncers", type number}, {"users_lost_share", type number}, {"srm_alarm_rate", type number}, {"false_revenue_win_rate", type number}, {"false_conversion_win_rate", type number}, {"mean_false_rel_lift_conversion", type number}}, "en-US")
+				in
+				    Typed
+

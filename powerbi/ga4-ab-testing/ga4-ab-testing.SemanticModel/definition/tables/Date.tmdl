@@ -1,0 +1,29 @@
+/// Calendar for the GA4 export window (from the first funnel week). Marked as the date table.
+table Date
+	lineageTag: 17d74797-b026-4c41-b44d-3df95031db5f
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: 338bd994-1563-49bb-9831-5830b848ed35
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+	column Week = 'Date'[Date] - WEEKDAY ( 'Date'[Date], 3 )
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: b23ab4ea-e574-41cf-8900-aee10b2a6da1
+		summarizeBy: none
+
+	column Month = FORMAT ( 'Date'[Date], "yyyy-mm" )
+		dataType: string
+		lineageTag: b171377c-c5fa-4bcc-9866-da0804904e9a
+		summarizeBy: none
+
+	partition Date = calculated
+		mode: import
+		source = CALENDAR ( DATE ( 2020, 10, 26 ), DATE ( 2021, 1, 31 ) )
+

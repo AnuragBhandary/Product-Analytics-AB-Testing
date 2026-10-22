@@ -1,0 +1,35 @@
+table criteo_balance
+	lineageTag: 9bb39d20-d59d-48bf-b286-ef9757f2c62f
+
+	column feature
+		dataType: string
+		lineageTag: 2fd8aabc-5a3d-4924-9437-945329bc0e9d
+		summarizeBy: none
+		sourceColumn: feature
+
+	column smd
+		dataType: double
+		formatString: 0.000
+		lineageTag: ecf673dc-b9ad-4a68-9b79-0ee835d6c7b3
+		summarizeBy: none
+		sourceColumn: smd
+
+	column z
+		dataType: double
+		formatString: 0.0
+		lineageTag: e517ae6f-ffa5-456a-abd2-643d1d86b95d
+		summarizeBy: none
+		sourceColumn: z
+
+	partition criteo_balance = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\criteo_balance.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"feature", "smd", "z"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"feature", type text}, {"smd", type number}, {"z", type number}}, "en-US")
+				in
+				    Typed
+

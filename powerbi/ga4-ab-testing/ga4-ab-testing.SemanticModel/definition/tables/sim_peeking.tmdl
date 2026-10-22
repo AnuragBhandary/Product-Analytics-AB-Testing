@@ -1,0 +1,72 @@
+/// Simulation: false positives from daily peeking vs a single look vs mSPRT.
+table sim_peeking
+	lineageTag: 9a39c994-3b20-4f1d-979c-df9713c43f46
+
+	column lift
+		dataType: double
+		formatString: 0%
+		lineageTag: bbd71732-9b1c-4d4a-8105-596b4a2fb897
+		summarizeBy: none
+		sourceColumn: lift
+
+	column tau_rel
+		dataType: double
+		formatString: 0.00
+		lineageTag: 8e73f695-b3d0-4ff1-89e5-07c643dc992e
+		summarizeBy: none
+		sourceColumn: tau_rel
+
+	column looks
+		dataType: int64
+		formatString: #,0
+		lineageTag: ef9fd051-1152-459f-90ce-895cae2a3017
+		summarizeBy: none
+		sourceColumn: looks
+
+	column reps
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2c13c2d2-a8bb-4db1-ba6f-b4dd1a6526cb
+		summarizeBy: none
+		sourceColumn: reps
+
+	column reject_single_final_look
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 3bb98258-55b2-4b83-8c49-e277867d9243
+		summarizeBy: none
+		sourceColumn: reject_single_final_look
+
+	column reject_naive_daily_peeking
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 3657c9ed-1249-41a5-b888-cf9c9a4a9fdc
+		summarizeBy: none
+		sourceColumn: reject_naive_daily_peeking
+
+	column reject_msprt_daily_peeking
+		dataType: double
+		formatString: 0.0%
+		lineageTag: df08d1b1-6285-401b-8509-679d64832265
+		summarizeBy: none
+		sourceColumn: reject_msprt_daily_peeking
+
+	column msprt_median_stop_day
+		dataType: double
+		formatString: 0
+		lineageTag: 4e01d23f-b467-4db2-bef9-20440c9ee8f7
+		summarizeBy: none
+		sourceColumn: msprt_median_stop_day
+
+	partition sim_peeking = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\sim_peeking.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"lift", "tau_rel", "looks", "reps", "reject_single_final_look", "reject_naive_daily_peeking", "reject_msprt_daily_peeking", "msprt_median_stop_day"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"lift", type number}, {"tau_rel", type number}, {"looks", Int64.Type}, {"reps", Int64.Type}, {"reject_single_final_look", type number}, {"reject_naive_daily_peeking", type number}, {"reject_msprt_daily_peeking", type number}, {"msprt_median_stop_day", type number}}, "en-US")
+				in
+				    Typed
+

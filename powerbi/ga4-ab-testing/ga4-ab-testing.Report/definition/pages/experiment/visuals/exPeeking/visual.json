@@ -1,0 +1,136 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "exPeeking",
+  "position": {
+    "x": 20,
+    "y": 370,
+    "z": 6000,
+    "width": 560,
+    "height": 160,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_peeking"
+                    }
+                  },
+                  "Property": "lift"
+                }
+              },
+              "queryRef": "sim_peeking.lift",
+              "nativeQueryRef": "lift",
+              "displayName": "True lift"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_peeking"
+                    }
+                  },
+                  "Property": "tau_rel"
+                }
+              },
+              "queryRef": "sim_peeking.tau_rel",
+              "nativeQueryRef": "tau_rel",
+              "displayName": "mSPRT tau"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_peeking"
+                    }
+                  },
+                  "Property": "reject_single_final_look"
+                }
+              },
+              "queryRef": "sim_peeking.reject_single_final_look",
+              "nativeQueryRef": "reject_single_final_look",
+              "displayName": "Single look"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_peeking"
+                    }
+                  },
+                  "Property": "reject_naive_daily_peeking"
+                }
+              },
+              "queryRef": "sim_peeking.reject_naive_daily_peeking",
+              "nativeQueryRef": "reject_naive_daily_peeking",
+              "displayName": "Naive daily peeking"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_peeking"
+                    }
+                  },
+                  "Property": "reject_msprt_daily_peeking"
+                }
+              },
+              "queryRef": "sim_peeking.reject_msprt_daily_peeking",
+              "nativeQueryRef": "reject_msprt_daily_peeking",
+              "displayName": "mSPRT daily"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "sim_peeking"
+                    }
+                  },
+                  "Property": "msprt_median_stop_day"
+                }
+              },
+              "queryRef": "sim_peeking.msprt_median_stop_day",
+              "nativeQueryRef": "msprt_median_stop_day",
+              "displayName": "mSPRT median stop day"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Peeking: rejection rate by analysis (lift 0 = false positives)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
