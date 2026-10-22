@@ -71,7 +71,7 @@ table mart_daily_kpis
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(File.Contents(DataFolder & "\mart_daily_kpis.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath = "mart_daily_kpis.csv"]), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 				    Kept = Table.SelectColumns(Headers, {"date", "users", "sessions", "engagement_rate", "converting_sessions", "session_conversion_rate", "purchases", "revenue_usd", "average_order_value_usd"}),
 				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),

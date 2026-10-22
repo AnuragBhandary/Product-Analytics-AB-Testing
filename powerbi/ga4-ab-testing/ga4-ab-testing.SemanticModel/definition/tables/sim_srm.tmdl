@@ -47,7 +47,7 @@ table sim_srm
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(File.Contents(DataFolder & "\sim_srm.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath = "sim_srm.csv"]), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 				    Kept = Table.SelectColumns(Headers, {"drop_share_of_treatment_bouncers", "users_lost_share", "srm_alarm_rate", "false_revenue_win_rate", "false_conversion_win_rate", "mean_false_rel_lift_conversion"}),
 				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),

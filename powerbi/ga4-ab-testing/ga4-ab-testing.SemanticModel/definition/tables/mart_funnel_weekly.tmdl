@@ -118,7 +118,7 @@ table mart_funnel_weekly
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(File.Contents(DataFolder & "\mart_funnel_weekly.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Source = Csv.Document(Web.Contents(DataFolder, [RelativePath = "mart_funnel_weekly.csv"]), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 				    Kept = Table.SelectColumns(Headers, {"week", "device_category", "channel", "sessions", "open_view_item", "open_add_to_cart", "open_begin_checkout", "open_add_shipping_info", "open_add_payment_info", "open_purchase", "closed_view_item", "closed_add_to_cart", "closed_begin_checkout", "closed_add_shipping_info", "closed_add_payment_info", "closed_purchase"}),
 				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),

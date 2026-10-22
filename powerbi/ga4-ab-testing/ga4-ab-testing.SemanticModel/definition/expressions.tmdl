@@ -1,5 +1,5 @@
-/// Folder holding the CSVs (powerbi/data). Change it in Transform data > Edit parameters.
-expression DataFolder = "C:\Anurag\Codes\Product-Analytics-AB-Testing\powerbi\data" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
+/// Base URL of the CSVs (powerbi/data on GitHub). Change it in Transform data > Edit parameters.
+expression DataFolder = "https://raw.githubusercontent.com/AnuragBhandary/Product-Analytics-AB-Testing/main/powerbi/data" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
 	lineageTag: 3c2538b2-fc57-4ae1-86d5-77152c753b5e
 
 	annotation PBI_ResultType = Text
