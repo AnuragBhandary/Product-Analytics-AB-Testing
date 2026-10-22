@@ -1,0 +1,296 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "prTable",
+  "position": {
+    "x": 590,
+    "y": 20,
+    "z": 1000,
+    "height": 680,
+    "width": 670,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_product_performance"
+                    }
+                  },
+                  "Property": "item_name"
+                }
+              },
+              "queryRef": "mart_product_performance.item_name",
+              "nativeQueryRef": "item_name"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "mart_product_performance"
+                    }
+                  },
+                  "Property": "item_category"
+                }
+              },
+              "queryRef": "mart_product_performance.item_category",
+              "nativeQueryRef": "item_category"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "mart_product_performance"
+                        }
+                      },
+                      "Property": "item_views"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(mart_product_performance.item_views)",
+              "nativeQueryRef": "Sum_of_item_views",
+              "displayName": "Views"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "mart_product_performance"
+                        }
+                      },
+                      "Property": "sessions_viewed"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(mart_product_performance.sessions_viewed)",
+              "nativeQueryRef": "Sum_of_sessions_viewed",
+              "displayName": "Sessions viewed"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "mart_product_performance"
+                        }
+                      },
+                      "Property": "units_purchased"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(mart_product_performance.units_purchased)",
+              "nativeQueryRef": "Sum_of_units_purchased",
+              "displayName": "Units purchased"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Item Revenue"
+                }
+              },
+              "queryRef": "_Measures.Item Revenue",
+              "nativeQueryRef": "Item_Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Units per Viewing Session"
+                }
+              },
+              "queryRef": "_Measures.Units per Viewing Session",
+              "nativeQueryRef": "Units_per_Viewing_Session"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Item Revenue"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'All items'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4adc401c97959171d73d",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_product_performance"
+              }
+            },
+            "Property": "item_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "1cdf61063cf79e674cd5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "mart_product_performance"
+              }
+            },
+            "Property": "item_category"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "3aa1ef12488b7cc99f3d",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "mart_product_performance"
+                  }
+                },
+                "Property": "item_views"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3952c363995e7b8edd0b",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "mart_product_performance"
+                  }
+                },
+                "Property": "sessions_viewed"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "73d957bfabd8c6b1e165",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "mart_product_performance"
+                  }
+                },
+                "Property": "units_purchased"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f7fe105572c2f99b1f05",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Item Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "37ca2c1a24445787ee5d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "_Measures"
+              }
+            },
+            "Property": "Units per Viewing Session"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

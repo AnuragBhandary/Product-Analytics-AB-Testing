@@ -1,0 +1,242 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "sim_peeking.lift": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_peeking",
+			          "ConceptualProperty": "lift"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "True lift": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sim_peeking.tau_rel": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_peeking",
+			          "ConceptualProperty": "tau_rel"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "mSPRT tau": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sim_peeking.reject_single_final_look": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_peeking",
+			          "ConceptualProperty": "reject_single_final_look"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Single look": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sim_peeking.reject_naive_daily_peeking": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_peeking",
+			          "ConceptualProperty": "reject_naive_daily_peeking"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Naive daily peeking": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sim_peeking.reject_msprt_daily_peeking": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_peeking",
+			          "ConceptualProperty": "reject_msprt_daily_peeking"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "mSPRT daily": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sim_peeking.msprt_median_stop_day": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_peeking",
+			          "ConceptualProperty": "msprt_median_stop_day"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "mSPRT median stop day": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sim_srm.drop_share_of_treatment_bouncers": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_srm",
+			          "ConceptualProperty": "drop_share_of_treatment_bouncers"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Treatment bouncers lost": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sim_srm.users_lost_share": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_srm",
+			          "ConceptualProperty": "users_lost_share"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Users lost": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sim_srm.srm_alarm_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_srm",
+			          "ConceptualProperty": "srm_alarm_rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "SRM alarm rate": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sim_srm.false_revenue_win_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_srm",
+			          "ConceptualProperty": "false_revenue_win_rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "False revenue win": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "sim_srm.false_conversion_win_rate": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "sim_srm",
+			          "ConceptualProperty": "false_conversion_win_rate"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "False conversion win": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

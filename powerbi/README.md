@@ -8,6 +8,35 @@ Time: about 1.5 to 2 hours. Save the result as `powerbi/ga4-ab-testing.pbix` and
 
 Five pages: Overview, Funnel, Retention, Products, Experiment.
 
+**The built report:** [`ga4-ab-testing/`](ga4-ab-testing) (Power BI project: open
+`ga4-ab-testing.pbip`; saved as `.pbip` rather than `.pbix` so the model and measures diff as
+text), [`ga4-ab-testing.pdf`](ga4-ab-testing.pdf), and one PNG per page in
+[`screenshots/`](screenshots). It reads the CSVs in `powerbi/data/` (option B); on another machine
+set Transform data > Edit parameters > `DataFolder` to that folder and Refresh.
+
+| Overview | Funnel |
+|---|---|
+| ![Overview](screenshots/1-overview.png) | ![Funnel](screenshots/2-funnel.png) |
+| **Retention** | **Experiment** |
+| ![Retention](screenshots/3-retention.png) | ![Experiment](screenshots/5-experiment.png) |
+
+What differs from the steps below, and why:
+
+- **`Funnel Step Drop-off %` clears `FunnelStep` first** (`FILTER ( ALL ( FunnelStep ), ...)`).
+  The visual filters `Step` (and `Order`, its sort column), so replacing only the `Order` filter
+  left `Step` = the current step and found no previous row: every step read 100%.
+- **An `Outcome` table** (visit, conversion) is related to both `criteo_estimates` and
+  `criteo_segments`, so one slicer drives the cards, the estimates and the segments chart.
+- **The `Date` table starts 2020-10-26**, the first funnel week, so no funnel row is orphaned.
+- **Retention matrix shows weeks 1-12**: week 0 is 100% by definition and swamps the colour scale.
+- **Products shows sessions viewed, not units added to cart.** `units_added_to_cart` in
+  `mart_product_performance` has impossible values (2,343,435,712 for Google Utility BackPack;
+  102,292 adds from 52,758 views for Super G Unisex Joggers), from junk `quantity` values in the
+  GA4 sample. To fix in dbt (cap or null the quantity) before using that column.
+- Estimator confidence intervals are in the bar tooltip rather than error bars; the sample-size
+  inputs are single-select dropdowns. At the defaults the calculator gives 118,577 users per arm
+  and 75.1 days.
+
 ## 1. Get the data
 
 **Option A: BigQuery (preferred, shows the live connection).**

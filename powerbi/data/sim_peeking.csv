@@ -1,0 +1,5 @@
+lift,tau_rel,looks,reps,reject_single_final_look,reject_naive_daily_peeking,reject_msprt_daily_peeking,msprt_median_stop_day
+0.0,0.05,62.0,1000.0,0.053,0.297,0.0,nan
+0.0,0.25,62.0,1000.0,0.053,0.297,0.015,32.0
+0.25,0.05,62.0,1000.0,0.934,0.967,0.175,55.0
+0.25,0.25,62.0,1000.0,0.934,0.967,0.734,18.0

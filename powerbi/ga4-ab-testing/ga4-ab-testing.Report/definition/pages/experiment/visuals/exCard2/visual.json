@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "exCard2",
+  "position": {
+    "x": 650,
+    "y": 10,
+    "z": 3000,
+    "width": 205,
+    "height": 90,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "AIPW Share of Naive %"
+                }
+              },
+              "queryRef": "_Measures.AIPW Share of Naive %",
+              "nativeQueryRef": "AIPW_Share_of_Naive_%"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

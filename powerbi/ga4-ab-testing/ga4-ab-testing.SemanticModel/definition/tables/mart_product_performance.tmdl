@@ -1,0 +1,62 @@
+table mart_product_performance
+	lineageTag: 766a735e-adde-4db6-a081-1cfc69e42cc2
+
+	column item_name
+		dataType: string
+		lineageTag: 890e0641-a947-4225-ac1e-5f1ff50a7c24
+		summarizeBy: none
+		sourceColumn: item_name
+
+	column item_category
+		dataType: string
+		lineageTag: 7b5c8273-e858-4e22-88ae-6061685b45e8
+		summarizeBy: none
+		sourceColumn: item_category
+
+	column item_views
+		dataType: int64
+		formatString: #,0
+		lineageTag: f1a2e783-098b-4281-ab31-7e49aa37f895
+		summarizeBy: sum
+		sourceColumn: item_views
+
+	column sessions_viewed
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6c9d4f9e-f196-4a57-9bf6-2256d5174c73
+		summarizeBy: sum
+		sourceColumn: sessions_viewed
+
+	column units_added_to_cart
+		dataType: int64
+		formatString: #,0
+		lineageTag: 23bf18ca-84d6-4f36-b3d9-83a7776fb6e7
+		summarizeBy: sum
+		sourceColumn: units_added_to_cart
+
+	column units_purchased
+		dataType: int64
+		formatString: #,0
+		lineageTag: 21c9a689-e736-49d1-b470-9c713d9b4b17
+		summarizeBy: sum
+		sourceColumn: units_purchased
+
+	column item_revenue_usd
+		dataType: decimal
+		formatString: \$#,0
+		lineageTag: 357beaf5-600e-4cda-91d6-1425c320c051
+		summarizeBy: sum
+		sourceColumn: item_revenue_usd
+
+	partition mart_product_performance = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\mart_product_performance.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"item_name", "item_category", "item_views", "sessions_viewed", "units_added_to_cart", "units_purchased", "item_revenue_usd"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"item_name", type text}, {"item_category", type text}, {"item_views", Int64.Type}, {"sessions_viewed", Int64.Type}, {"units_added_to_cart", Int64.Type}, {"units_purchased", Int64.Type}, {"item_revenue_usd", Currency.Type}}, "en-US")
+				in
+				    Typed
+

@@ -1,0 +1,37 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["DataFolder","_Measures","FunnelStep","Outcome","mart_daily_kpis","mart_funnel_weekly","mart_channel_performance","mart_cohort_retention","mart_product_performance","criteo_estimates","criteo_segments","criteo_balance","sim_calibration","sim_metric_sensitivity","sim_peeking","sim_srm"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table _Measures
+ref table Date
+ref table FunnelStep
+ref table Outcome
+ref table 'Baseline Rate'
+ref table 'Relative MDE'
+ref table Power
+ref table 'Daily Users'
+ref table mart_daily_kpis
+ref table mart_funnel_weekly
+ref table mart_channel_performance
+ref table mart_cohort_retention
+ref table mart_product_performance
+ref table criteo_estimates
+ref table criteo_segments
+ref table criteo_balance
+ref table sim_calibration
+ref table sim_metric_sensitivity
+ref table sim_peeking
+ref table sim_srm
+
+ref cultureInfo en-US
+

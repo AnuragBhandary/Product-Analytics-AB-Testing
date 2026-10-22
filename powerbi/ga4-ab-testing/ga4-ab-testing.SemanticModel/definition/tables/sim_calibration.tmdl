@@ -1,0 +1,35 @@
+table sim_calibration
+	lineageTag: 19e8dfd6-4252-45bf-b7fa-bd0e8f2ecf1b
+
+	column lift
+		dataType: double
+		formatString: 0%
+		lineageTag: 2d287658-24fc-4732-b3a9-b94fb4d3009b
+		summarizeBy: none
+		sourceColumn: lift
+
+	column analysis
+		dataType: string
+		lineageTag: f62672dc-9392-4ffb-af3b-465c9f51869e
+		summarizeBy: none
+		sourceColumn: analysis
+
+	column rejection_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 9fc65ab7-3862-4c2d-92b0-41c22f80951c
+		summarizeBy: average
+		sourceColumn: rejection_rate
+
+	partition sim_calibration = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\sim_calibration.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"lift", "analysis", "rejection_rate"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"lift", type number}, {"analysis", type text}, {"rejection_rate", type number}}, "en-US")
+				in
+				    Typed
+

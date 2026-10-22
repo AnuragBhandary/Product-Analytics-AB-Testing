@@ -1,0 +1,35 @@
+table sim_metric_sensitivity
+	lineageTag: f89e9b24-2bee-41b0-9aff-995a1592a4c5
+
+	column rel_mde
+		dataType: double
+		formatString: 0%
+		lineageTag: 420b2f6b-779e-4ab1-9583-69dd4c568c68
+		summarizeBy: none
+		sourceColumn: rel_mde
+
+	column metric
+		dataType: string
+		lineageTag: aad7eabf-8498-4802-9c37-2beb0d794701
+		summarizeBy: none
+		sourceColumn: metric
+
+	column days_needed
+		dataType: double
+		formatString: #,0
+		lineageTag: d0ab8ae0-1073-4084-a71b-2d988344eb91
+		summarizeBy: none
+		sourceColumn: days_needed
+
+	partition sim_metric_sensitivity = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\sim_metric_sensitivity.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"rel_mde", "metric", "days_needed"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"rel_mde", type number}, {"metric", type text}, {"days_needed", type number}}, "en-US")
+				in
+				    Typed
+

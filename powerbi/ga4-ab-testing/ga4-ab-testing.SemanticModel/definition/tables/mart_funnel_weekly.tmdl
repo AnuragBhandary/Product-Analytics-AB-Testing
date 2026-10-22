@@ -1,0 +1,128 @@
+/// Weekly e-commerce funnel by device and channel; open and closed funnel counts.
+table mart_funnel_weekly
+	lineageTag: fe32fc9d-3928-42c2-959e-1668cab32ad8
+
+	column week
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 04995a12-b4b2-405f-acbe-703f9c135c8d
+		summarizeBy: none
+		sourceColumn: week
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column device_category
+		dataType: string
+		lineageTag: c3686417-c7ac-4b89-8514-93b981e33e35
+		summarizeBy: none
+		sourceColumn: device_category
+
+	column channel
+		dataType: string
+		lineageTag: 370221a7-11be-4ae6-8d74-f3ee87d7083b
+		summarizeBy: none
+		sourceColumn: channel
+
+	column sessions
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5f79fdb8-83a4-4451-a8af-c46667ef35b1
+		summarizeBy: sum
+		sourceColumn: sessions
+
+	column open_view_item
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0900f967-1fd9-4099-9728-f275f24a8e59
+		summarizeBy: sum
+		sourceColumn: open_view_item
+
+	column open_add_to_cart
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7260fb92-6e79-4f81-a08c-e3accd324899
+		summarizeBy: sum
+		sourceColumn: open_add_to_cart
+
+	column open_begin_checkout
+		dataType: int64
+		formatString: #,0
+		lineageTag: 32449a79-4de3-4647-9eb2-d906c46272c8
+		summarizeBy: sum
+		sourceColumn: open_begin_checkout
+
+	column open_add_shipping_info
+		dataType: int64
+		formatString: #,0
+		lineageTag: b38f65b9-00f0-4778-80d1-4f16b3458295
+		summarizeBy: sum
+		sourceColumn: open_add_shipping_info
+
+	column open_add_payment_info
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4ffd6e53-7422-4c81-ab7b-5be7da349082
+		summarizeBy: sum
+		sourceColumn: open_add_payment_info
+
+	column open_purchase
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5325d76b-6a1d-4533-a4a7-4975fde61b45
+		summarizeBy: sum
+		sourceColumn: open_purchase
+
+	column closed_view_item
+		dataType: int64
+		formatString: #,0
+		lineageTag: f45c1c2b-c54e-42c7-b52b-febe20efe163
+		summarizeBy: sum
+		sourceColumn: closed_view_item
+
+	column closed_add_to_cart
+		dataType: int64
+		formatString: #,0
+		lineageTag: b9e16b9d-65fb-4c43-85b2-18f258697c56
+		summarizeBy: sum
+		sourceColumn: closed_add_to_cart
+
+	column closed_begin_checkout
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1ed5da2c-c217-413b-800d-25e7c732b8b8
+		summarizeBy: sum
+		sourceColumn: closed_begin_checkout
+
+	column closed_add_shipping_info
+		dataType: int64
+		formatString: #,0
+		lineageTag: a397099a-d928-4d3f-b861-b461bfcaa56b
+		summarizeBy: sum
+		sourceColumn: closed_add_shipping_info
+
+	column closed_add_payment_info
+		dataType: int64
+		formatString: #,0
+		lineageTag: b213dfbd-6d12-4e3d-a822-d41c2b90428d
+		summarizeBy: sum
+		sourceColumn: closed_add_payment_info
+
+	column closed_purchase
+		dataType: int64
+		formatString: #,0
+		lineageTag: 53dd609a-cd00-459d-99ea-6b3392d4b441
+		summarizeBy: sum
+		sourceColumn: closed_purchase
+
+	partition mart_funnel_weekly = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\mart_funnel_weekly.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"week", "device_category", "channel", "sessions", "open_view_item", "open_add_to_cart", "open_begin_checkout", "open_add_shipping_info", "open_add_payment_info", "open_purchase", "closed_view_item", "closed_add_to_cart", "closed_begin_checkout", "closed_add_shipping_info", "closed_add_payment_info", "closed_purchase"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"week", type date}, {"device_category", type text}, {"channel", type text}, {"sessions", Int64.Type}, {"open_view_item", Int64.Type}, {"open_add_to_cart", Int64.Type}, {"open_begin_checkout", Int64.Type}, {"open_add_shipping_info", Int64.Type}, {"open_add_payment_info", Int64.Type}, {"open_purchase", Int64.Type}, {"closed_view_item", Int64.Type}, {"closed_add_to_cart", Int64.Type}, {"closed_begin_checkout", Int64.Type}, {"closed_add_shipping_info", Int64.Type}, {"closed_add_payment_info", Int64.Type}, {"closed_purchase", Int64.Type}}, "en-US")
+				in
+				    Typed
+

@@ -1,0 +1,81 @@
+/// GA4 daily KPIs (dbt mart ga4_marts.mart_daily_kpis).
+table mart_daily_kpis
+	lineageTag: 3953a4f8-b9a3-4db0-a9e1-15a429d406eb
+
+	column date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 711c5e5b-a051-4528-9853-0c8ef97b7e8d
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column users
+		dataType: int64
+		formatString: #,0
+		lineageTag: bfee0100-84af-4d79-ab5e-913bf9ba1655
+		summarizeBy: sum
+		sourceColumn: users
+
+	column sessions
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7ff02f62-c56e-48a7-9997-2503bc4ad855
+		summarizeBy: sum
+		sourceColumn: sessions
+
+	column engagement_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 1df7272e-b936-42b1-8d58-19c1fdaa3728
+		summarizeBy: none
+		sourceColumn: engagement_rate
+
+	column converting_sessions
+		dataType: int64
+		formatString: #,0
+		lineageTag: d65bc0b3-2959-4eb2-b82f-eed6de69d5d3
+		summarizeBy: sum
+		sourceColumn: converting_sessions
+
+	column session_conversion_rate
+		dataType: double
+		formatString: 0.00%
+		lineageTag: 11b50daf-d6ef-45b9-a654-e5a112b2699b
+		summarizeBy: none
+		sourceColumn: session_conversion_rate
+
+	column purchases
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4dd6e97e-72bd-43d0-9452-0b33651651dc
+		summarizeBy: sum
+		sourceColumn: purchases
+
+	column revenue_usd
+		dataType: decimal
+		formatString: \$#,0
+		lineageTag: 8e2334d6-fc02-4b3f-9259-5ba32fdef82d
+		summarizeBy: sum
+		sourceColumn: revenue_usd
+
+	column average_order_value_usd
+		dataType: decimal
+		formatString: #,0.00
+		lineageTag: 872233be-555a-45bb-a528-d2e3796fe151
+		summarizeBy: none
+		sourceColumn: average_order_value_usd
+
+	partition mart_daily_kpis = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\mart_daily_kpis.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Kept = Table.SelectColumns(Headers, {"date", "users", "sessions", "engagement_rate", "converting_sessions", "session_conversion_rate", "purchases", "revenue_usd", "average_order_value_usd"}),
+				    Blanks = Table.TransformColumns(Kept, {}, each if _ = "" or _ = "nan" then null else _),
+				    Typed = Table.TransformColumnTypes(Blanks, {{"date", type date}, {"users", Int64.Type}, {"sessions", Int64.Type}, {"engagement_rate", type number}, {"converting_sessions", Int64.Type}, {"session_conversion_rate", type number}, {"purchases", Int64.Type}, {"revenue_usd", Currency.Type}, {"average_order_value_usd", Currency.Type}}, "en-US")
+				in
+				    Typed
+
