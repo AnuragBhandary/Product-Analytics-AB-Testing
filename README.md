@@ -37,7 +37,6 @@ Power BI (DAX) · GitHub Actions + Pages
 | dbt | 13 models, 27 data tests (reconciliation, volume, funnel monotonicity), about 60 s on BigQuery |
 
 Details: **[docs/RESULTS.md](docs/RESULTS.md)** · why each choice: **[docs/DESIGN.md](docs/DESIGN.md)**
-· how to study and defend it: **[docs/INTERVIEW.md](docs/INTERVIEW.md)**
 
 ## Architecture
 
